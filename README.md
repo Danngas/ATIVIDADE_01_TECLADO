@@ -1,7 +1,11 @@
 # ATIVIDADE01
 #PARTICIPANTES ATIVOS
 
-DANIEL SILVA DE SOUZA
+DANIEL SILVA DE SOUZA 
+
+ANTONIO APARECIDO MEDEIROS
+
+HENRIQUE DA SILVA BISPO
 #
  link da simulacao https://wokwi.com/projects/420369392351547393
  
@@ -43,11 +47,16 @@ D → Liga o LED branco.
 
 3 → Faz o LED vermelho piscar.
 
+7 → Faz o rbp piscar na sequencia vermelho → verde → azul e branco com um intervalo de 0,5 segundos entre as cores.
+
+4 → Faz o led piscar na sequencia Verde → Azul → Vermelho
+
+(Asterisco) → Desliga os LED's
  (JOGO VA VELHA) --> Ativa o buzzer.
 
 Restante das Teclas
 
-Os botões 4, 5, 6, 7, 8, 9 e * ainda não têm funções atribuídas.
+Os botões 5, 6, 8, 9  ainda não têm funções atribuídas.
 
 Como Utilizar
 

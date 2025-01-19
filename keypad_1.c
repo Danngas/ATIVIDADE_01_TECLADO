@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
+#include "hardware/clocks.h"
+#include "hardware/pwm.h"
+
 
 // Definir os pinos GPIO para LEDs e Buzzer
 #define LED_RED_PIN 13
 #define LED_GREEN_PIN 11
 #define LED_BLUE_PIN 12
-#define BUZZER_PIN 10
-
+#define BUZZER_PIN 21
+#define BUZZER_FREQUENCY 100
 // Definir o layout da matriz do teclado e os pinos correspondentes
 char keypad_layout[4][4] = {
     {'1', '2', '3', 'A'},
@@ -50,24 +53,61 @@ void initialize_gpio()
     gpio_set_dir(BUZZER_PIN, GPIO_OUT);
 }
 
+// Definição de uma função para inicializar o PWM no pino do buzzer
+void pwm_init_buzzer(uint pin)
+{
+    // Configurar o pino como saída de PWM
+    gpio_set_function(pin, GPIO_FUNC_PWM);
+
+    // Obter o slice do PWM associado ao pino
+    uint slice_num = pwm_gpio_to_slice_num(pin);
+
+    // Configurar o PWM com frequência desejada
+    pwm_config config = pwm_get_default_config();
+    pwm_config_set_clkdiv(&config, clock_get_hz(clk_sys) / (BUZZER_FREQUENCY * 4096)); // Divisor de clock
+    pwm_init(slice_num, &config, true);
+
+    // Iniciar o PWM no nível baixo
+    pwm_set_gpio_level(pin, 0);
+}
+
+void beep(uint pin, uint duration_ms)
+{
+    // Obter o slice do PWM associado ao pino
+    uint slice_num = pwm_gpio_to_slice_num(pin);
+
+    // Configurar o duty cycle para 50% (ativo)
+    pwm_set_gpio_level(pin, 2048);
+
+    // Temporização
+    sleep_ms(duration_ms);
+
+    // Desativar o sinal PWM (duty cycle 0)
+    pwm_set_gpio_level(pin, 0);
+
+    // Pausa entre os beeps
+    sleep_ms(100); // Pausa de 100ms
+}
+
 // Função para controlar o LED RGB com base na tecla pressionada
 void control_rgb_led(char key)
 {
-    // Desligar todos os LEDs inicialmente
-    gpio_put(LED_RED_PIN, 0);
-    gpio_put(LED_GREEN_PIN, 0);
-    gpio_put(LED_BLUE_PIN, 0);
-
     // Ativar LEDs específicos com base na tecla
     switch (key)
     {
     case 'A':
+        gpio_put(LED_GREEN_PIN, 0);
+        gpio_put(LED_BLUE_PIN, 0);
         gpio_put(LED_RED_PIN, 1);
         break;
     case 'B':
+        gpio_put(LED_RED_PIN, 0);
+        gpio_put(LED_BLUE_PIN, 0);
         gpio_put(LED_GREEN_PIN, 1);
         break;
     case 'C':
+        gpio_put(LED_RED_PIN, 0);
+        gpio_put(LED_GREEN_PIN, 0);
         gpio_put(LED_BLUE_PIN, 1);
         break;
     case 'D':
@@ -79,19 +119,20 @@ void control_rgb_led(char key)
 }
 
 // Função para controlar o Buzzer
-void control_buzzer(char key)
+void desligarleds()
 {
-    if (key == '#')
-    {
-        gpio_put(BUZZER_PIN, 1);
-        sleep_ms(100);
-        gpio_put(BUZZER_PIN, 0);
-    }
+    // Desligar todos os LEDs inicialmente
+    gpio_put(LED_RED_PIN, 0);
+    gpio_put(LED_GREEN_PIN, 0);
+    gpio_put(LED_BLUE_PIN, 0);
 }
 
 // Funções para teclas numéricas
 void handle_key_1()
 {
+    gpio_put(LED_RED_PIN, 0);
+    gpio_put(LED_GREEN_PIN, 0);
+    gpio_put(LED_BLUE_PIN, 0);
     for (int i = 0; i < 3; i++)
     {
         gpio_put(LED_RED_PIN, 1);
@@ -103,6 +144,9 @@ void handle_key_1()
 
 void handle_key_2()
 {
+    gpio_put(LED_RED_PIN, 0);
+    gpio_put(LED_GREEN_PIN, 0);
+    gpio_put(LED_BLUE_PIN, 0);
     for (int i = 0; i < 3; i++)
     {
         gpio_put(LED_GREEN_PIN, 1);
@@ -114,6 +158,9 @@ void handle_key_2()
 
 void handle_key_3()
 {
+    gpio_put(LED_RED_PIN, 0);
+    gpio_put(LED_GREEN_PIN, 0);
+    gpio_put(LED_BLUE_PIN, 0);
     for (int i = 0; i < 3; i++)
     {
         gpio_put(LED_BLUE_PIN, 1);
@@ -125,23 +172,56 @@ void handle_key_3()
 
 void handle_key_4()
 {
+    gpio_put(LED_RED_PIN, 0);
+    gpio_put(LED_GREEN_PIN, 0);
+    gpio_put(LED_BLUE_PIN, 0);
     // Liga os leds em sequencia
     // Verde->Azul->Vermelho
-    for (int i = 11; i < 14; i++) {
-      gpio_put(i,1);
-      sleep_ms(500);
-      gpio_put(i,0);
-      sleep_ms(500);
+    for (int i = 11; i < 14; i++)
+    {
+        gpio_put(i, 1);
+        sleep_ms(500);
+        gpio_put(i, 0);
+        sleep_ms(500);
+    }
+}
+
+//  acionar LEDs de forma aleatória
+void random_leds() {
+    // Gerar um número aleatório entre 0 e 2 (para escolher a cor do LED)
+    int ledColor = rand() % 3; // 0 - Vermelho, 1 - Verde, 2 - Azul
+
+    // Desligar todos os LEDs antes de acionar o próximo
+    gpio_put(LED_RED_PIN, 0);
+    gpio_put(LED_GREEN_PIN, 0);
+    gpio_put(LED_BLUE_PIN, 0);
+
+    // Ligar o LED correspondente
+    switch (ledColor) {
+        case 0: // Vermelho
+            gpio_put(LED_RED_PIN, 1);
+            break;
+        case 1: // Verde
+            gpio_put(LED_GREEN_PIN, 1);
+            break;
+        case 2: // Azul
+            gpio_put(LED_BLUE_PIN, 1);
+            break;
+        default:
+            break;
     }
 }
 
 void handle_key_5()
 {
-    // Implementação futura
+// ATIVIDADE_01_TECLADO
+     // Chama a função para acionar LEDs aleatórios
+    random_leds();
 }
 
 void handle_key_6()
 {
+// funcao-6
     // Pisca alternadamente os LEDs vermelho e verde
     for (int i = 0; i < 5; i++)
     {
@@ -157,12 +237,31 @@ void handle_key_6()
     // Garante que os LEDs estejam desligados no final
     gpio_put(LED_RED_PIN, 0);
     gpio_put(LED_GREEN_PIN, 0);
+
+
 }
 
 
 void handle_key_7()
 {
-    // Implementação futura
+    gpio_put(LED_RED_PIN, 0);
+    gpio_put(LED_GREEN_PIN, 0);
+    gpio_put(LED_BLUE_PIN, 0);
+
+    gpio_put(LED_BLUE_PIN, 1);
+    sleep_ms(500);
+    gpio_put(LED_BLUE_PIN, 0);
+    gpio_put(LED_GREEN_PIN, 1);
+    sleep_ms(500);
+    gpio_put(LED_GREEN_PIN, 0);
+    gpio_put(LED_RED_PIN, 1);
+    sleep_ms(500);
+    gpio_put(LED_GREEN_PIN, 1);
+    gpio_put(LED_BLUE_PIN, 1);
+    sleep_ms(500);
+    gpio_put(LED_GREEN_PIN, 0);
+    gpio_put(LED_RED_PIN, 0);
+    gpio_put(LED_BLUE_PIN, 0);
 }
 
 void handle_key_8()
@@ -206,6 +305,7 @@ int main()
 {
     stdio_init_all();
     initialize_gpio();
+    pwm_init_buzzer(BUZZER_PIN);
 
     while (1)
     {
@@ -215,12 +315,6 @@ int main()
         {
             // Imprimir a tecla pressionada
             printf("Tecla pressionada: %c\n", key);
-
-            // Desligar todos os LEDs ao pressionar qualquer tecla
-            gpio_put(LED_RED_PIN, 0);
-            gpio_put(LED_GREEN_PIN, 0);
-            gpio_put(LED_BLUE_PIN, 0);
-
             // Tratar teclas numéricas
             if (key == '1')
                 handle_key_1();
@@ -248,9 +342,14 @@ int main()
             }
 
             // Tratar controle do Buzzer
-            if (key == '#' || key == '*')
+            if (key == '#')
             {
-                control_buzzer(key);
+                beep(BUZZER_PIN, 2000);
+            }
+
+            if (key == '*')
+            {
+                desligarleds();
             }
         }
 

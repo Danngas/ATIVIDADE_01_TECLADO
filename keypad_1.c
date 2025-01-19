@@ -140,7 +140,24 @@ void handle_key_6()
 
 void handle_key_7()
 {
-    // Implementação futura
+    // #define LED_RED_PIN 13
+    // #define LED_GREEN_PIN 11
+    // #define LED_BLUE_PIN 12
+    gpio_put(LED_BLUE_PIN, 1);
+    sleep_ms(500);
+    gpio_put(LED_BLUE_PIN, 0);
+    gpio_put(LED_GREEN_PIN, 1);
+    sleep_ms(500);
+    gpio_put(LED_GREEN_PIN, 0);
+    gpio_put(LED_RED_PIN, 1);
+    sleep_ms(500);
+    gpio_put(LED_GREEN_PIN, 1);
+    gpio_put(LED_BLUE_PIN, 1);
+    sleep_ms(500);
+    gpio_put(LED_GREEN_PIN, 0);
+    gpio_put(LED_RED_PIN, 0);
+    gpio_put(LED_BLUE_PIN, 0);
+    
 }
 
 void handle_key_8()

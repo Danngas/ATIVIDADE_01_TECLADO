@@ -125,7 +125,14 @@ void handle_key_3()
 
 void handle_key_4()
 {
-    // Implementação futura
+    // Liga os leds em sequencia
+    // Verde->Azul->Vermelho
+    for (int i = 11; i < 14; i++) {
+      gpio_put(i,1);
+      sleep_ms(500);
+      gpio_put(i,0);
+      sleep_ms(500);
+    }
 }
 
 void handle_key_5()

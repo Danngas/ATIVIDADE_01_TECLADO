@@ -12,7 +12,7 @@ GISELE IZIDIO DOURADO
 #
  link da simulacao https://wokwi.com/projects/420369392351547393
  
- link do video mostrando o funcionamento
+ link do video mostrando o funcionamento https://youtu.be/bujAn2d1kH0
 
  
 Guia de Uso - Programa para Teclado Matricial 4x4

@@ -221,9 +221,26 @@ void handle_key_5()
 
 void handle_key_6()
 {
+// funcao-6
+    // Pisca alternadamente os LEDs vermelho e verde
+    for (int i = 0; i < 5; i++)
+    {
+        gpio_put(LED_RED_PIN, 1);  // Liga o LED vermelho
+        gpio_put(LED_GREEN_PIN, 0); // Desliga o LED verde
+        sleep_ms(300);
 
-    // Implementação futura
+        gpio_put(LED_RED_PIN, 0);  // Desliga o LED vermelho
+        gpio_put(LED_GREEN_PIN, 1); // Liga o LED verde
+        sleep_ms(300);
+    }
+
+    // Garante que os LEDs estejam desligados no final
+    gpio_put(LED_RED_PIN, 0);
+    gpio_put(LED_GREEN_PIN, 0);
+
+
 }
+
 
 void handle_key_7()
 {

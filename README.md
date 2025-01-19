@@ -49,6 +49,8 @@ D → Liga o LED branco.
 
 7 → Faz o rbp piscar na sequencia vermelho → verde → azul e branco com um intervalo de 0,5 segundos entre as cores.
 
+4 → Faz o led piscar na sequencia Verde → Azul → Vermelho
+
  (JOGO VA VELHA) --> Ativa o buzzer.
 
 Restante das Teclas

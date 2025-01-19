@@ -51,11 +51,12 @@ D → Liga o LED branco.
 
 4 → Faz o led piscar na sequencia Verde → Azul → Vermelho
 
+* → Desliga os LED's
  (JOGO VA VELHA) --> Ativa o buzzer.
 
 Restante das Teclas
 
-Os botões 5, 6, 8, 9 e * ainda não têm funções atribuídas.
+Os botões 5, 6, 8, 9  ainda não têm funções atribuídas.
 
 Como Utilizar
 

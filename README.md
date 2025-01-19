@@ -43,7 +43,7 @@ D → Liga o LED branco.
 
 3 → Faz o LED vermelho piscar.
 
-# → Desliga todos os LEDs e ativa o buzzer.
+ (JOGO VA VELHA) --> Ativa o buzzer.
 
 Restante das Teclas
 

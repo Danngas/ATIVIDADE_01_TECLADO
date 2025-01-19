@@ -4,6 +4,7 @@
 #include "hardware/clocks.h"
 #include "hardware/pwm.h"
 
+
 // Definir os pinos GPIO para LEDs e Buzzer
 #define LED_RED_PIN 13
 #define LED_GREEN_PIN 11
@@ -185,10 +186,37 @@ void handle_key_4()
     }
 }
 
+//  acionar LEDs de forma aleatória
+void random_leds() {
+    // Gerar um número aleatório entre 0 e 2 (para escolher a cor do LED)
+    int ledColor = rand() % 3; // 0 - Vermelho, 1 - Verde, 2 - Azul
+
+    // Desligar todos os LEDs antes de acionar o próximo
+    gpio_put(LED_RED_PIN, 0);
+    gpio_put(LED_GREEN_PIN, 0);
+    gpio_put(LED_BLUE_PIN, 0);
+
+    // Ligar o LED correspondente
+    switch (ledColor) {
+        case 0: // Vermelho
+            gpio_put(LED_RED_PIN, 1);
+            break;
+        case 1: // Verde
+            gpio_put(LED_GREEN_PIN, 1);
+            break;
+        case 2: // Azul
+            gpio_put(LED_BLUE_PIN, 1);
+            break;
+        default:
+            break;
+    }
+}
+
 void handle_key_5()
 {
-
-    // Implementação futura
+// ATIVIDADE_01_TECLADO
+     // Chama a função para acionar LEDs aleatórios
+    random_leds();
 }
 
 void handle_key_6()

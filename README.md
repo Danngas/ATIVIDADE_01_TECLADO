@@ -4,6 +4,8 @@
 DANIEL SILVA DE SOUZA 
 
 ANTONIO APARECIDO MEDEIROS
+
+HENRIQUE DA SILVA BISPO
 #
  link da simulacao https://wokwi.com/projects/420369392351547393
  
@@ -51,7 +53,7 @@ D → Liga o LED branco.
 
 Restante das Teclas
 
-Os botões 4, 5, 6, 8, 9 e * ainda não têm funções atribuídas.
+Os botões 5, 6, 8, 9 e * ainda não têm funções atribuídas.
 
 Como Utilizar
 

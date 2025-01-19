@@ -6,6 +6,8 @@ DANIEL SILVA DE SOUZA
 ANTONIO APARECIDO MEDEIROS
 
 HENRIQUE DA SILVA BISPO
+
+CLARISSE SANTANA LEITE
 #
  link da simulacao https://wokwi.com/projects/420369392351547393
  
@@ -51,11 +53,13 @@ D → Liga o LED branco.
 
 4 → Faz o led piscar na sequencia Verde → Azul → Vermelho
 
+5 → Faz os LEDs RGB piscarem em sequência alternada.
+
  (JOGO VA VELHA) --> Ativa o buzzer.
 
 Restante das Teclas
 
-Os botões 5, 6, 8, 9 e * ainda não têm funções atribuídas.
+Os botões  6, 8, 9 e * ainda não têm funções atribuídas.
 
 Como Utilizar
 
